@@ -12,7 +12,6 @@ router.post('/signup', function(req, res, next){
 
   //check if username exists in db...
 
-
   //if username DOES exist, send error message
 
 
@@ -20,8 +19,6 @@ router.post('/signup', function(req, res, next){
   //jwt
   //bcrypt
   //session.token && send to user route
-
-
 
 
 });

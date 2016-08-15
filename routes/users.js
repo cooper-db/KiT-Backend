@@ -8,8 +8,9 @@ var jwt = require('jsonwebtoken');
 
 // GET /users/:id/contacts -- Display all contacts
 router.get('users/:id/contacts', function (req, res, next) {
-    //show contacts list
-})
+
+
+});
 
 
 // POST /users/:id/contacts -- Create a new contact
