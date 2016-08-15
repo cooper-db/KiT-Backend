@@ -2,8 +2,7 @@
 
 
 // require dependencies
-require('dotenv')
-    .config();
+require('dotenv').config();
 const express = require('express');
 const bodyparser = require('body-parser');
 const cors = require('cors');
@@ -46,8 +45,7 @@ app.use(function (req, res, next) {
 
 if(app.get('env') === 'development') {
     app.use(function (err, req, res, next) {  
-        res.status(err.status || 500)
-            .json(err); 
+        res.status(err.status || 500).json(err); 
     });
 }
 

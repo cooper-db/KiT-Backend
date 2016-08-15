@@ -9,6 +9,8 @@ var jwt = require('jsonwebtoken');
 
 
 router.post('/signup', function(req, res, next){
+    //test routes
+    res.send('/auth/signup POST route hit successfully');
 
   //check if username exists in db...
 
@@ -29,6 +31,8 @@ router.post('/signup', function(req, res, next){
 
 
 router.post('/login', function(req, res, next) {
+    //test route
+    res.send('/auth/login POST route hit successfully');
 
   //check if username exists in db...
 
