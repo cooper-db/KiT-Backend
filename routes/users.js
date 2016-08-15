@@ -7,14 +7,19 @@ var jwt = require('jsonwebtoken');
 
 
 // GET /users/:id/contacts -- Display all contacts
-router.get('users/:id/contacts', function (req, res, next) {
+router.get('/:id/contacts', function (req, res, next) {
 
     //test route
-    console.log(req);
-    let id = req.params.id;
-    if (id === 2) {
-        res.send('users/:id/contacts GET route hit successfully');
-    }
+    return knex('contacts')
+        .select('*').then(function (data) {
+            console.log(data);
+            res.json(data);
+        }).catch(function (err) {
+            console.log(err);
+            res.status(500).json({
+                err: err
+            });
+        });
 
 
     //show contacts list
@@ -23,7 +28,7 @@ router.get('users/:id/contacts', function (req, res, next) {
 
 
 // POST /users/:id/contacts -- Create a new contact
-router.post('users/:id/contacts', function (req, res, next) {
+router.post('/:id/contacts', function (req, res, next) {
     //test route
     res.send('users/:id/contacts POST route hit successfully');
 
@@ -35,7 +40,7 @@ router.post('users/:id/contacts', function (req, res, next) {
 
 
 // PUT/users/:id/contacts/:id -- Update a contact
-router.put('users/:id/contacts/:id', function (req, res, next) {
+router.put('/:id/contacts/:id', function (req, res, next) {
     //test route
     res.send('users/:id/contacts/:id PUT route hit successfully');
 
@@ -44,7 +49,7 @@ router.put('users/:id/contacts/:id', function (req, res, next) {
 
 
 //DELETE/users/:id/contacts/:id -- Delete a contact
-router.delete('users/:id/contacts/:id', function (req, res, next) {
+router.delete('/:id/contacts/:id', function (req, res, next) {
     //test route
     res.send('users/:id/contacts/:id DELETE route hit successfully');
 
