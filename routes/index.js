@@ -9,8 +9,10 @@ var jwt = require('jsonwebtoken');
 //GET/ -- Render home view (will show login/signup or suggested contact if authenticated)
 
 router.get('/', function(req, res, next){
+    
   //testing route
   res.send('Hello World!');
+
   //if authenticated...
   //go to users.js
 
