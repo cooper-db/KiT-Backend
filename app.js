@@ -9,6 +9,9 @@ const bodyparser = require('body-parser');
 const cors = require('cors');
 const expressJwt = require('express-jwt');
 const logger = require('morgan');
+const index = require('./routes/index');
+const users = require('./routes/users');
+const auth = require('./routes/auth');
 
 
 //fire up the app
@@ -25,6 +28,13 @@ app.use(bodyparser.urlencoded({
     extended: false
 }));
 app.use(cors());
+
+
+//routing
+
+app.use('/', index);
+app.use('/users', users);
+app.use('/auth', auth);
 
 
 // error handling
