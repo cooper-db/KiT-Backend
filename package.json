@@ -4,7 +4,8 @@
   "description": "KiT Back End",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node_modules/.bin/knex migrate:rollback && node_modules/.bin/knex migrate:latest && node_modules/.bin/knex seed:run"
   },
   "repository": {
     "type": "git",
