@@ -8,8 +8,14 @@ var jwt = require('jsonwebtoken');
 
 // GET /users/:id/contacts -- Display all contacts
 router.get('users/:id/contacts', function (req, res, next) {
+
     //test route
-    res.send('users/:id/contacts GET route hit successfully');
+    console.log(req);
+    let id = req.params.id;
+    if (id === 2) {
+        res.send('users/:id/contacts GET route hit successfully');
+    }
+
 
     //show contacts list
 });
