@@ -2,8 +2,8 @@
   "name": "kit-backend",
   "version": "1.0.0",
   "description": "KiT Back End",
-  "main": "app.js",
   "scripts": {
+      "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "node_modules/.bin/knex migrate:rollback && node_modules/.bin/knex migrate:latest && node_modules/.bin/knex seed:run"
   },
