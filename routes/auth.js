@@ -6,48 +6,76 @@ var knex = require('../db/knex');
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
-
+//function check to see if user exists in db
+function exists(username) {
+  return knex.select('username').from('users').where({username: username});
+}
 
 router.post('/signup', function(req, res, next){
-    //test routes
-    res.send('/auth/signup POST route hit successfully');
-
+  var user = {
+    username: req.body.username,
+    password: req.body.password
+  };
+  console.log(user);
   //check if username exists in db...
+  exists(user.username)
+    .then(function(result) {
+      if (result.length >=1) {
+        //user already exists in system
+        res.status(401).send({message:'Username already exists'});
+        return;
+      } else {
+        //create the new user
+        bcrypt.genSalt(10, function(err, salt){
+          bcrypt.hash(req.body.password, salt, function(err, hash) {
+            knex('users').insert({
+              username: req.body.username,
+              password: hash
+            })
 
-  //if username DOES exist, send error message
+            //HOW TO AUTOMATICALLY SIGN IN THE USER WITH JWT STUFF?
 
-
-  //if username does NOT exist, create user...
-  //jwt
-  //bcrypt
-  //session.token && send to user route
-
-
+            .then(function(data){
+              res.json(data);
+            })
+            .catch(function(err){
+              res.status(500).json({err:err});
+            });
+          });
+        });
+      }
+    });
 });
 
 
 
 router.post('/login', function(req, res, next) {
-    //test route
-    res.send('/auth/login POST route hit successfully');
+  var user = req.body;
 
   //check if username exists in db...
 
-
-  //if username DOES exist...
-  //check against password submitted in req.body
-
+  //if username DOESN'T exist...
+  //error.message = 'username does not exist';
 
 
-  //if username && password DON'T match...
-  //return error
-
-
-
-  //if they DO match...
-  //session.token && send to users
-
-
+  return knex('users')
+    .where({username: user.username})
+    .then(function(data){
+      console.log(data);
+      bcrypt.compare(user.password, data[0].password, function(err, result) {
+        if (result === false) {
+          res.status(401).send({message:'Wrong user or password'});
+          return;
+        } else {
+          var profile = {
+            id: data[0].id,
+            username: user.username
+          };
+          var token = jwt.sign(profile, 'process.env.SECRET');
+          res.status(200).json({ token:token });
+        }
+      });
+    });
 });
 
 
