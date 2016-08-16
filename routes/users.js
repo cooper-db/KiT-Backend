@@ -9,12 +9,17 @@ var jwt = require('jsonwebtoken');
 // GET /users/:id/contacts -- Display all contacts
 router.get('/:id/contacts', function (req, res, next) {
 
-    //test route
+    //grab all the contacts for the current user from the db
+    let id = req.params.id;
+    console.log(id);
     return knex('contacts')
-        .select('*').then(function (data) {
+        .select('*')
+        .where('user_id', id)
+        .then(function (data) {
             console.log(data);
             res.json(data);
-        }).catch(function (err) {
+        })
+        .catch(function (err) {
             console.log(err);
             res.status(500).json({
                 err: err
