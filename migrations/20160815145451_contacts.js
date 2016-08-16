@@ -1,10 +1,11 @@
+'use strict';
 
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('contacts', function(table){
     table.increments('id');
     table.integer('user_id');
     table.string('name');
-    table.string('phone');
+    table.string('phone').unique().notNullable();
     table.string('email');
     table.string('relationship');
     table.integer('frequency_of_contact');

@@ -35,9 +35,37 @@ router.get('/:id/contacts', function (req, res, next) {
 // POST /users/:id/contacts -- Create a new contact
 router.post('/:id/contacts', function (req, res, next) {
     //test route
-    res.send('users/:id/contacts POST route hit successfully');
+    // res.send('users/:id/contacts POST route hit successfully');
 
-    //check for existing contact w/ same info
+    //set up new contact
+    let id = req.params.id;
+    let now = new Date();
+    let newContact = {
+        user_id: id,
+        name: req.body.name,
+        phone: req.body.phone,
+        email: req.body.email,
+        relationship: req.body.relationship,
+        frequency_of_contact: req.body.freq,
+        notes: req.body.notes,
+        last_contact: now
+    };
+    console.log(newContact);
+
+    // post new contact to db
+    return knex('contacts')
+        .insert(newContact)
+        .then(function (data) {
+            console.log(data);
+            res.json(data);
+        })
+        .catch(function (err) {
+            console.log(err);
+            res.status(500).json({
+                err: err
+            });
+        });
+
 
     //show NEW contact form
 
