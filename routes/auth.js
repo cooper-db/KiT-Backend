@@ -9,7 +9,6 @@ var jwt = require('jsonwebtoken');
 
 //function checks to see if user already exists in db
 function userExistsInDB(username) {
-  console.log('checking to see if the user already exists...');
   return knex.select('*').from('users').where({username: username});
 }
 
@@ -18,7 +17,6 @@ router.post('/signup', function(req, res, next){
     username: req.body.username,
     password: req.body.password
   };
-
   //check if username exists in db...
   userExistsInDB(user.username)
     .then(function(result) {
@@ -66,35 +64,29 @@ router.post('/login', function(req, res, next) {
   //check if username exists in db...
   userExistsInDB(user.username)
     .then(function(result){
-      console.log(result);
+      user.id = result.id;
       if (result.length === 0) {
         //user does not exist in system
         res.status(401).json({message:'That username does not exist'});
         return;
       } else {
-        return knex('users')
-          .where({username: user.username})
-          .then(function(data){
-            console.log(data);
-            bcrypt.compare(user.password, data[0].password, function(err, result) {
+            bcrypt.compare(user.password, result.password, function(err, result) {
               if (result === false) {
+            // if(user.password !== result.password) {
                 res.status(401).send({message:'Wrong user or password'});
                 return;
               } else {
-                console.log('password matches!');
                 var profile = {
-                  id: data[0].id,
+                  id: user.id,
                   username: user.username
                 };
                 var token = jwt.sign(profile, 'process.env.SECRET');
-                console.log(token);
                 res.status(200).json({ token:token, id:profile.id });
               }
-            });
+            // });
           });
         }
     });
 });
-
 
 module.exports = router;
