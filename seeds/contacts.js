@@ -1,3 +1,5 @@
+'use strict';
+
 exports.seed = function(knex, Promise) {
     // Deletes ALL existing entries
     return knex('contacts').del()
@@ -62,8 +64,8 @@ exports.seed = function(knex, Promise) {
                     frequency_of_contact: 0,
                     notes: 'Only met once on puddle flight to Seattle. Took my monies. Damn him.',
                     last_contact: new Date()
-                })
-
+                }),
+                knex.raw('ALTER SEQUENCE users_id_seq RESTART WITH 6')
             ]);
         });
 };

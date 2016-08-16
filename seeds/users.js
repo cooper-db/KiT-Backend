@@ -1,3 +1,4 @@
+'use strict';
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
@@ -11,7 +12,6 @@ exports.seed = function(knex, Promise) {
         knex('users').insert({id: 4, username: 'Vy', password: 1234}),
         knex('users').insert({id: 5, username: 'Kristen', password: 1234}),
         knex.raw('ALTER SEQUENCE users_id_seq RESTART WITH 6')
-
       ]);
     });
 };
