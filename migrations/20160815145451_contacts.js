@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
     table.increments('id');
     table.integer('user_id');
     table.string('name');
-    table.string('phone').unique().notNullable();
+    table.string('phone').unique(['phone', 'user_id']).notNullable();
     table.string('email');
     table.string('relationship');
     table.integer('frequency_of_contact');
