@@ -42,7 +42,7 @@ router.post('/signup', function(req, res, next){
                 id: id[0],
                 username: user.username
               };
-              var token = jwt.sign(profile, 'process.env.SECRET');
+              var token = jwt.sign(profile, process.env.SECRET);
               res.status(200).json({ token:token });
             })
 
@@ -80,7 +80,7 @@ router.post('/login', function(req, res, next) {
                   id: user.id,
                   username: user.username
                 };
-                var token = jwt.sign(profile, 'process.env.SECRET');
+                var token = jwt.sign(profile, process.env.SECRET);
                 res.status(200).json({ token:token, id:profile.id });
               }
             // });

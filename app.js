@@ -32,8 +32,10 @@ app.use(cors());
 //routing
 
 app.use('/', index);
-app.use('/users', expressJwt({secret:process.env.SECRET}), users);
 app.use('/auth', auth); //no access if no token
+app.use(expressJwt({secret: process.env.SECRET}));
+app.use('/users', users); //, expressJwt({secret: 'KITSECRETKEY'})
+
 
 
 // error handling
