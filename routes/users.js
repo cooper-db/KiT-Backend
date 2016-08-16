@@ -106,18 +106,32 @@ router.put('/:id/contacts/:contactID', function (req, res, next) {
                 err: err
             });
         });
-
-
-
     //show UPDATE contact form
 });
 
 
 //DELETE/users/:id/contacts/:id -- Delete a contact
-router.delete('/:id/contacts/:id', function (req, res, next) {
+router.delete('/:id/contacts/:contactID', function (req, res, next) {
     //test route
-    res.send('users/:id/contacts/:id DELETE route hit successfully');
+    // res.send('users/:id/contacts/:id DELETE route hit successfully');
 
+    //set up contact to delete
+    let contactID = req.params.contactID;
+
+    // delete contact from db
+    return knex('contacts')
+        .where('id', '=', contactID)
+        .del()
+        .then(function (data) {
+            console.log(data);
+            res.json(data);
+        })
+        .catch(function (err) {
+            console.log(err);
+            res.status(500).json({
+                err: err
+            });
+        });
     //delete
 });
 
