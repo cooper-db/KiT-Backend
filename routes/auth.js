@@ -6,8 +6,9 @@ var knex = require('../db/knex');
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
-//function check to see if user exists in db
-function exists(username) {
+//function checks to see if user already exists in db
+function userExistsInDB(username) {
+  console.log('checking to see if the user already exists...');
   return knex.select('username').from('users').where({username: username});
 }
 
@@ -16,14 +17,16 @@ router.post('/signup', function(req, res, next){
     username: req.body.username,
     password: req.body.password
   };
-  console.log(user);
+
   //check if username exists in db...
-  exists(user.username)
+  userExistsInDB(user.username)
     .then(function(result) {
+
       if (result.length >=1) {
         //user already exists in system
         res.status(401).send({message:'Username already exists'});
         return;
+
       } else {
         //create the new user
         bcrypt.genSalt(10, function(err, salt){
@@ -50,31 +53,42 @@ router.post('/signup', function(req, res, next){
 
 
 router.post('/login', function(req, res, next) {
-  var user = req.body;
-
+    var user = {
+      username: req.body.username,
+      password: req.body.password
+    };
   //check if username exists in db...
-
-  //if username DOESN'T exist...
-  //error.message = 'username does not exist';
-
-
-  return knex('users')
-    .where({username: user.username})
-    .then(function(data){
-      console.log(data);
-      bcrypt.compare(user.password, data[0].password, function(err, result) {
-        if (result === false) {
-          res.status(401).send({message:'Wrong user or password'});
-          return;
-        } else {
-          var profile = {
-            id: data[0].id,
-            username: user.username
-          };
-          var token = jwt.sign(profile, 'process.env.SECRET');
-          res.status(200).json({ token:token });
+  userExistsInDB(user.username)
+    .then(function(result){
+      if (result.length === 0) {
+        console.log("*********");
+        console.log(result);
+        //user does not exist in system
+        res.status(401).send({message:'That username does not exist'});
+        return;
+      } else {
+        console.log(result);
+        return knex('users')
+          .where({username: user.username})
+          .then(function(data){
+            console.log(data);
+            bcrypt.compare(user.password, data[0].password, function(err, result) {
+              if (result === false) {
+                res.status(401).send({message:'Wrong user or password'});
+                return;
+              } else {
+                console.log('password matches!');
+                var profile = {
+                  id: data[0].id,
+                  username: user.username
+                };
+                var token = jwt.sign(profile, 'process.env.SECRET');
+                console.log(token);
+                res.status(200).json({ token:token });
+              }
+            });
+          });
         }
-      });
     });
 });
 
