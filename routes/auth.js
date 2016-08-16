@@ -64,7 +64,7 @@ router.post('/login', function(req, res, next) {
   //check if username exists in db...
   userExistsInDB(user.username)
     .then(function(result){
-      user.id = result.id;
+      user.id = result[0].id;
       if (result.length === 0) {
         //user does not exist in system
         res.status(401).json({message:'That username does not exist'});
@@ -81,6 +81,7 @@ router.post('/login', function(req, res, next) {
                   id: user.id,
                   username: user.username
                 };
+                console.log(profile);
                 var token = jwt.sign(profile, process.env.SECRET);
                 res.status(200).json({ token:token, id:profile.id });
               }
