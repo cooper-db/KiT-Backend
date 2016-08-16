@@ -70,7 +70,8 @@ router.post('/login', function(req, res, next) {
         res.status(401).json({message:'That username does not exist'});
         return;
       } else {
-            bcrypt.compare(user.password, result.password, function(err, result) {
+            bcrypt.compare(user.password, result[0].password, function(err, result) {
+              console.log(result);
               if (result === false) {
             // if(user.password !== result.password) {
                 res.status(401).send({message:'Wrong user or password'});
