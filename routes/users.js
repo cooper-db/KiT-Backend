@@ -46,7 +46,7 @@ router.post('/:id/contacts', function (req, res, next) {
         phone: req.body.phone,
         email: req.body.email,
         relationship: req.body.relationship,
-        frequency_of_contact: req.body.freq,
+        frequency_of_contact: req.body.frequency_of_contact,
         notes: req.body.notes,
         last_contact: now
     };
@@ -73,9 +73,41 @@ router.post('/:id/contacts', function (req, res, next) {
 
 
 // PUT/users/:id/contacts/:id -- Update a contact
-router.put('/:id/contacts/:id', function (req, res, next) {
+router.put('/:id/contacts/:contactID', function (req, res, next) {
     //test route
-    res.send('users/:id/contacts/:id PUT route hit successfully');
+    // res.send('users/:id/contacts/:id PUT route hit successfully');
+
+    //set up updated contact
+    let user_id = req.params.id;
+    let contactID = req.params.contactID;
+
+    // note: anything undefined in the update will be ignored by Postgres, so this format should NOT cause errors!
+    let updatedContact = {
+        name: req.body.name,
+        phone: req.body.phone,
+        email: req.body.email,
+        relationship: req.body.relationship,
+        frequency_of_contact: req.body.frequency_of_contact,
+        notes: req.body.notes
+    };
+    console.log(updatedContact);
+
+    // put updated contact to db
+    return knex('contacts')
+        .where('id', '=', contactID)
+        .update(updatedContact, '*')
+        .then(function (data) {
+            console.log(data);
+            res.json(data);
+        })
+        .catch(function (err) {
+            console.log(err);
+            res.status(500).json({
+                err: err
+            });
+        });
+
+
 
     //show UPDATE contact form
 });
