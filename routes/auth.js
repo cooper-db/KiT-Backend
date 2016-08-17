@@ -71,6 +71,7 @@ router.post('/login', function(req, res, next) {
         return;
       } else {
             bcrypt.compare(user.password, result[0].password, function(err, result) {
+              console.log(result);
               if (result === false) {
             // if(user.password !== result.password) {
                 res.status(401).send({message:'Wrong user or password'});
@@ -80,6 +81,7 @@ router.post('/login', function(req, res, next) {
                   id: user.id,
                   username: user.username
                 };
+                console.log(profile);
                 var token = jwt.sign(profile, process.env.SECRET);
                 res.status(200).json({ token:token, id:profile.id });
               }

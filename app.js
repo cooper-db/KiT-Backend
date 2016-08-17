@@ -17,7 +17,7 @@ const auth = require('./routes/auth');
 const app = express();
 
 // set port const
-const port = process.env.NODE_PORT || 3000;
+const port = process.env.PORT || 3000;
 
 
 // use dependencies
@@ -32,8 +32,10 @@ app.use(cors());
 //routing
 
 app.use('/', index);
-app.use('/users', expressJwt({secret:process.env.SECRET}), users);
 app.use('/auth', auth); //no access if no token
+app.use(expressJwt({secret: process.env.SECRET}));
+app.use('/users', users); //, expressJwt({secret: 'KITSECRETKEY'})
+
 
 
 // error handling
