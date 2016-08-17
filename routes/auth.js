@@ -42,7 +42,7 @@ router.post('/signup', function(req, res, next){
                 id: id[0],
                 username: user.username
               };
-              var token = jwt.sign(profile, 'process.env.SECRET');
+              var token = jwt.sign(profile, process.env.SECRET);
               res.status(200).json({ token:token });
             })
 
@@ -64,13 +64,13 @@ router.post('/login', function(req, res, next) {
   //check if username exists in db...
   userExistsInDB(user.username)
     .then(function(result){
-      user.id = result.id;
+      user.id = result[0].id;
       if (result.length === 0) {
         //user does not exist in system
         res.status(401).json({message:'That username does not exist'});
         return;
       } else {
-            bcrypt.compare(user.password, result.password, function(err, result) {
+            bcrypt.compare(user.password, result[0].password, function(err, result) {
               if (result === false) {
             // if(user.password !== result.password) {
                 res.status(401).send({message:'Wrong user or password'});
@@ -80,7 +80,7 @@ router.post('/login', function(req, res, next) {
                   id: user.id,
                   username: user.username
                 };
-                var token = jwt.sign(profile, 'process.env.SECRET');
+                var token = jwt.sign(profile, process.env.SECRET);
                 res.status(200).json({ token:token, id:profile.id });
               }
             // });
