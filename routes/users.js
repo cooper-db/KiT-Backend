@@ -37,7 +37,7 @@ router.post('/:id/contacts', function (req, res, next) {
     // res.send('users/:id/contacts POST route hit successfully');
 
     //set up new contact
-    let id = req.params.id;
+    let id = req.user.id;
     let now = new Date();
     let newContact = {
         user_id: id,
