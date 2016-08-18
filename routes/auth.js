@@ -21,10 +21,10 @@ function checkPassword(req, info) {
     info.passwordError = true;
     info.error.password.push({message: "Password should be 8 or more characters."});
   }
-  var regex = /[A-Za-z]/;
+  var regex = /\d/g;
   if (!req.body.password.match(regex)) {
     info.passwordError = true;
-    info.error.password.push({message: "Password must contain at least one letter."});
+    info.error.password.push({message: "Password must contain at least one number."});
   }
   var regex = /\W/g;
   if (!req.body.password.match(regex)) {
@@ -52,10 +52,11 @@ router.post('/signup', function(req, res, next){
   userExistsInDB(user.username)
     .then(function(result) {
       //Roger suggests IF TIME move below logic to userExistsInDB function, returning promise
-
+      console.log('made it to the then after checking if user exists');
       if (info.passwordError) {
         console.log("Can't sign up with that password, fool!");
-        res.status(401).json(info.error);
+        console.log(info.error.password);
+        res.status(401).json(info.error.password);
         return;
       } else if (result.length >=1) {
         //user already exists in system
@@ -71,7 +72,6 @@ router.post('/signup', function(req, res, next){
               password: hash
             }).returning('id')
 
-            //JWT token...is this the correct/best way to do this?
             .then(function(id){
               var profile = {
                 id: id[0],
