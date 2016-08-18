@@ -121,12 +121,13 @@ router.post('/login', function(req, res, next) {
           res.status(200).json({ token:token, id:profile.id });
         }
             // });
-      })
-      .catch(function(err) {
-        console.log(err);
       });
+      // .catch(function(err) {
+      //   console.log(err);
+      // });
     }
   });
 });
+
 
 module.exports = router;
