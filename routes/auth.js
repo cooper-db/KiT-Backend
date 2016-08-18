@@ -92,38 +92,41 @@ router.post('/signup', function(req, res, next){
 
 
 router.post('/login', function(req, res, next) {
-    var user = {
-      username: req.body.username,
-      password: req.body.password
-    };
+  var user = {
+    username: req.body.username,
+    password: req.body.password
+  };
   //check if username exists in db...
   userExistsInDB(user.username)
-    .then(function(result){
+  .then(function(result){
+    if (result.length === 0) {
+      //user does not exist in system
+      res.status(401).json({message:'Username does not exist.'});
+      return;
+    } else {
       user.id = result[0].id;
-      if (result.length === 0) {
-        //user does not exist in system
-        res.status(401).json({message:'That username does not exist'});
-        return;
-      } else {
-            bcrypt.compare(user.password, result[0].password, function(err, result) {
-              console.log(result);
-              if (result === false) {
-            // if(user.password !== result.password) {
-                res.status(401).send({message:'Wrong user or password'});
-                return;
-              } else {
-                var profile = {
-                  id: user.id,
-                  username: user.username
-                };
-                console.log(profile);
-                var token = jwt.sign(profile, process.env.SECRET);
-                res.status(200).json({ token:token, id:profile.id });
-              }
-            // });
-          });
+      bcrypt.compare(user.password, result[0].password, function(err, result) {
+        console.log(result);
+        if (result === false) {
+      // if(user.password !== result.password) {
+          res.status(401).send({message:'Incorrect username or password'});
+          return;
+        } else {
+          var profile = {
+            id: user.id,
+            username: user.username
+          };
+          console.log(profile);
+          var token = jwt.sign(profile, process.env.SECRET);
+          res.status(200).json({ token:token, id:profile.id });
         }
-    });
+            // });
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+    }
+  });
 });
 
 module.exports = router;
