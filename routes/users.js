@@ -72,7 +72,7 @@ router.post('/:id/contacts', function (req, res, next) {
 
 
 // PUT/users/:id/contacts/:id -- Update a contact
-router.put('/:id/contacts/:contactID', function (req, res, next) {
+router.put('users/:id/contacts/:contactID', function (req, res, next) {
     //test route
     // res.send('users/:id/contacts/:id PUT route hit successfully');
 
