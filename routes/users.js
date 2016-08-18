@@ -4,6 +4,7 @@ var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex');
 var jwt = require('jsonwebtoken');
+var bcrypt = require('bcrypt');
 
 
 // GET /users/:id/contacts -- Display all contacts
@@ -133,6 +134,23 @@ router.delete('/:id/contacts/:contactID', function (req, res, next) {
             });
         });
     //delete
+});
+
+router.post('/reset', function(req, res) {
+  bcrypt.hash(req.body.newPassword, 10, function(err, result) {
+    if (result) {
+      knex('users').update({password:result}).where({id:req.user.id})
+      .then(function() {
+        res.json({message:'Password successfully reset'});
+      })
+      .catch(function(err) {
+        res.json({message:'There was an error resetting the password',err:err});
+      });
+    }
+    if (err) {
+      res.json({message:'There was an error resetting the password',err:err});
+    }
+  });
 });
 
 
