@@ -52,15 +52,13 @@ router.post('/signup', function(req, res, next){
   userExistsInDB(user.username)
     .then(function(result) {
       //Roger suggests IF TIME move below logic to userExistsInDB function, returning promise
-      console.log('made it to the then after checking if user exists');
       if (info.passwordError) {
-        console.log("Can't sign up with that password, fool!");
         console.log(info.error.password);
         res.status(401).json(info.error.password);
         return;
       } else if (result.length >=1) {
-        //user already exists in system
-        res.status(401).json({message:'Username already exists'});
+        console.log('user already exists in system');
+        res.status(401).json({message:'Sorry, but that username already exists!'});
         return;
       } else {
         //create the new user
