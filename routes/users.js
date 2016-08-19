@@ -11,7 +11,7 @@ var bcrypt = require('bcrypt');
 router.get('/:id/contacts', function (req, res, next) {
     //grab all the contacts for the current user from the db
     let id = req.params.id;
-    console.log(id);
+    console.log(id);``
     return knex('contacts')
         .select('*')
         .where('user_id', id)
