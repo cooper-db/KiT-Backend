@@ -1,6 +1,6 @@
 
 # KiT - Keep In Touch
-![kit homepage]('./images/home-white-iphone.png')
+![kit homepage](images/home-white-iphone.png)
 
 KiT is a native-like mobile app that reminds users to keep in touch with the people they most want to stay connected with. Upon signing up, users can import contacts from their phone or add users manually, inputting phone, email, relationship type (family, social or professional), notes, and the frequency with which they would like to be reminded to contact that person. The user opens the app each day to see a randomly generated contact (based on the preferred frequency of contact), and can either use the displayed phone/email information to get in touch, or send the contact a text message right from the home screen.
 
