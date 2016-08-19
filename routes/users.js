@@ -4,11 +4,11 @@ var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex');
 var jwt = require('jsonwebtoken');
+var bcrypt = require('bcrypt');
 
 
 // GET /users/:id/contacts -- Display all contacts
 router.get('/:id/contacts', function (req, res, next) {
-
     //grab all the contacts for the current user from the db
     let id = req.params.id;
     console.log(id);``
@@ -38,7 +38,7 @@ router.post('/:id/contacts', function (req, res, next) {
     // res.send('users/:id/contacts POST route hit successfully');
 
     //set up new contact
-    let id = req.params.id;
+    let id = req.user.id;
     let now = new Date();
     let newContact = {
         user_id: id,
@@ -73,7 +73,7 @@ router.post('/:id/contacts', function (req, res, next) {
 
 
 // PUT/users/:id/contacts/:id -- Update a contact
-router.put('/:id/contacts/:contactID', function (req, res, next) {
+router.put('users/:id/contacts/:contactID', function (req, res, next) {
     //test route
     // res.send('users/:id/contacts/:id PUT route hit successfully');
 
@@ -134,6 +134,23 @@ router.delete('/:id/contacts/:contactID', function (req, res, next) {
             });
         });
     //delete
+});
+
+router.post('/reset', function(req, res) {
+  bcrypt.hash(req.body.newPassword, 10, function(err, result) {
+    if (result) {
+      knex('users').update({password:result}).where({id:req.user.id})
+      .then(function() {
+        res.json({message:'Password successfully reset'});
+      })
+      .catch(function(err) {
+        res.json({message:'There was an error resetting the password',err:err});
+      });
+    }
+    if (err) {
+      res.json({message:'There was an error resetting the password',err:err});
+    }
+  });
 });
 
 
