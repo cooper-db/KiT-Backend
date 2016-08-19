@@ -11,7 +11,7 @@ router.get('/:id/contacts', function (req, res, next) {
 
     //grab all the contacts for the current user from the db
     let id = req.params.id;
-    console.log(id);
+    console.log(id);``
     return knex('contacts')
         .select('*')
         .where('user_id', id)
@@ -88,7 +88,8 @@ router.put('/:id/contacts/:contactID', function (req, res, next) {
         email: req.body.email,
         relationship: req.body.relationship,
         frequency_of_contact: req.body.frequency_of_contact,
-        notes: req.body.notes
+        notes: req.body.notes,
+        last_contact: req.body.last_contact
     };
     console.log(updatedContact);
 
