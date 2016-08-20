@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>KiT by cooper-db</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">KiT</h1>
+        <p class="header">KiT - Helping you Keep in Touch.</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/cooper-db/kit-backend/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/cooper-db/kit-backend/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/cooper-db/kit-backend">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/cooper-db">cooper-db</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a id="kit---keep-in-touch" class="anchor" href="#kit---keep-in-touch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>KiT - Keep In Touch</h1>
+
+<p><img src="https://github.com/cooper-db/kit-backend/raw/master/images/home-white-iphone.png" alt="kit homepage"></p>
+
+<p>KiT is a native-like mobile app that reminds users to keep in touch with the people they most want to stay connected with. Upon signing up, users can import contacts from their phone or add users manually, inputting phone, email, relationship type (family, social or professional), notes, and the frequency with which they would like to be reminded to contact that person. The user opens the app each day to see a randomly generated contact (based on the preferred frequency of contact), and can either use the displayed phone/email information to get in touch, or send the contact a text message right from the home screen.</p>
+
+<p>KiT's back-end API was engineered with Node/Express, utilizes KnexJS to make data requests to a PostgreSQL database, and is deployed on Heroku. The front-end was built with AngularJS and is wrapped with Ionic to enable native app functionality. User passwords are encrypted using Bcrypt, and user authentication is implemented using JWT web tokens.</p>
+
+<p>[KiT's Tin-Can Phone Logo is credited to Meg Clingman, and is licensed under CC 3.0}(<a href="https://creativecommons.org/licenses/by/3.0/us/">https://creativecommons.org/licenses/by/3.0/us/</a>)</p>
+
+<h2>
+<a id="examine-play-contribute" class="anchor" href="#examine-play-contribute" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examine, Play, Contribute</h2>
+
+<p>Feel free to fork and clone both the back-end and front-end repositories onto your local machine to see how KiT works or add additional features. Follow these instructions for local installation:</p>
+
+<h3>
+<a id="install-npm-dependencies" class="anchor" href="#install-npm-dependencies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install NPM dependencies</h3>
+
+<div class="highlight highlight-source-shell"><pre>npm install</pre></div>
+
+<h3>
+<a id="install-postgresql" class="anchor" href="#install-postgresql" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install postgreSQL</h3>
+
+<div class="highlight highlight-source-shell"><pre>brew install postgres</pre></div>
+
+<h3>
+<a id="create-postgresql-database-named-kit" class="anchor" href="#create-postgresql-database-named-kit" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create postgreSQL database named 'kit'</h3>
+
+<div class="highlight highlight-source-shell"><pre>createdb kit</pre></div>
+
+<h3>
+<a id="run-knex-migrations-to-insert-users-and-contacts-tables-into-postgresql-database" class="anchor" href="#run-knex-migrations-to-insert-users-and-contacts-tables-into-postgresql-database" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Run knex migrations to insert users and contacts tables into postgreSQL database</h3>
+
+<div class="highlight highlight-source-shell"><pre>knex migrate:latest</pre></div>
+
+<h3>
+<a id="run-knex-seeds-to-insert-records-into-users-and-contacts-tables" class="anchor" href="#run-knex-seeds-to-insert-records-into-users-and-contacts-tables" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Run knex seeds to insert records into users and contacts tables</h3>
+
+<div class="highlight highlight-source-shell"><pre>knex seed:run</pre></div>
+
+<h3>
+<a id="add-env-file-and-insert-jwt-secret" class="anchor" href="#add-env-file-and-insert-jwt-secret" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add .env file and insert JWT secret</h3>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>SECRET:YOURSECRET<span class="pl-pds">"</span></span> <span class="pl-k">&gt;&gt;</span> .env</pre></div>
+
+<h3>
+<a id="navigate-to-front-end-repository-and-follow-installation-instructions" class="anchor" href="#navigate-to-front-end-repository-and-follow-installation-instructions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Navigate to front-end repository and follow installation instructions:</h3>
+
+<p><a href="https://github.com/cooper-db/kit-front-end">https://github.com/cooper-db/kit-front-end</a></p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
